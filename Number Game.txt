@@ -1,0 +1,152 @@
+package Game;
+import java.util.Scanner;
+
+class Guesser {
+          private int guesserNum;
+	      public int guessNum() {
+	      Scanner scan = new Scanner(System.in);
+	      System.out.println("Guesser kindly guess the number:");
+	      guesserNum = scan.nextInt();
+	      return guesserNum;
+	}
+
+}
+
+class Player {
+	    private int pguessNum;
+	    public int guessNum() {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Player kindly give your number:");
+		pguessNum = scan.nextInt();
+		return pguessNum;
+	}
+
+}
+
+class Umpire {
+
+	private int attempts; 
+    private int roundsWonByPlayer1;
+    private int roundsWonByPlayer2;
+    private int roundsWonByPlayer3;
+   
+    private int numFromGuesser;
+	private int numFromPlayer1;
+	private int numFromPlayer2;
+	private int numFromPlayer3;
+	
+	public void collectNumFromGuesser(){
+		Guesser g=new Guesser();
+		numFromGuesser=g.guessNum();		
+	}
+	
+	public void collectNumFromPlayer() {
+		for (int attempt = 1; attempt <= 3; attempt++) {
+		        System.out.println("Attempt " + attempt);
+			Player p1=new Player();
+			Player p2=new Player();
+			Player p3=new Player();
+			
+
+            System.out.println("Player 1: ");
+            numFromPlayer1 = p1.guessNum();
+
+            System.out.println("Player 2: ");
+            numFromPlayer2 = p2.guessNum();
+
+            System.out.println("Player 3: ");
+            numFromPlayer3 = p3.guessNum();
+            
+            if(attempt==0) {
+             compare();
+            }
+            updateScores();
+		}
+	}
+	
+	public int compare() {
+	    if (numFromGuesser == numFromPlayer1) {
+	        if (numFromGuesser == numFromPlayer2 && numFromGuesser == numFromPlayer3) {
+	            System.out.println("Game tied! All the player guess the same number");
+	        } else if (numFromGuesser == numFromPlayer2) {
+	            System.out.println("Player 1 and Player 2 won the game.");
+	            roundsWonByPlayer1++;
+	            roundsWonByPlayer2++;
+	        } else if (numFromGuesser == numFromPlayer3) {
+	            System.out.println("Player 1 and Player 3 won the game.");
+	            roundsWonByPlayer1++;
+	            roundsWonByPlayer3++;
+	        } else {
+	            System.out.println("Player 1 won the game.");
+	            roundsWonByPlayer1++;
+	        }
+	    } else if (numFromGuesser == numFromPlayer2) {
+	        if (numFromGuesser == numFromPlayer3) {
+	            System.out.println("Player 2 and Player 3 won the game.");
+	            roundsWonByPlayer2++;
+	            roundsWonByPlayer3++;
+	        } else {
+	            System.out.println("Player 2 is won the game");
+	            roundsWonByPlayer2++;
+	        }
+	    } else if (numFromGuesser == numFromPlayer3) {
+	        System.out.println("Player 3 is won the game");
+	        roundsWonByPlayer3++;
+	    } else {
+	        System.out.println("Game lost! Try again");
+	    }
+	    return 0;
+	}
+
+    private void updateScores() {
+        if (numFromGuesser == numFromPlayer1) {
+            if (numFromGuesser == numFromPlayer2 && numFromGuesser == numFromPlayer3) {
+                System.out.println("Game tied! All the players guessed the same number");
+            } else if (numFromGuesser == numFromPlayer2) {
+                System.out.println("Player 1 and Player 2 won the round.");
+                roundsWonByPlayer1++;
+                roundsWonByPlayer2++;
+            } else if (numFromGuesser == numFromPlayer3) {
+                System.out.println("Player 1 and Player 3 won the round.");
+                roundsWonByPlayer1++;
+                roundsWonByPlayer3++;
+            } else {
+                System.out.println("Player 1 won the round.");
+                roundsWonByPlayer1++;
+            }
+        } else if (numFromGuesser == numFromPlayer2) {
+            if (numFromGuesser == numFromPlayer3) {
+                System.out.println("Player 2 and Player 3 won the round.");
+                roundsWonByPlayer2++;
+                roundsWonByPlayer3++;
+            } else {
+                System.out.println("Player 2 won the round.");
+                roundsWonByPlayer2++;
+            }
+        } else if (numFromGuesser == numFromPlayer3) {
+            System.out.println("Player 3 won the round.");
+            roundsWonByPlayer3++;
+        } else {
+            System.out.println("Game lost! Try again.");
+        }
+        attempts++;
+    }
+
+    public void displayScores() {
+        System.out.println("Scores after 3 attempts:");
+        System.out.println("Player 1 rounds won: " + roundsWonByPlayer1);
+        System.out.println("Player 2 rounds won: " + roundsWonByPlayer2);
+        System.out.println("Player 3 rounds won: " + roundsWonByPlayer3);
+    }
+}
+
+
+public class NumberGame {
+	public static void main(String[] args) {
+		Umpire u = new Umpire();
+        u.collectNumFromGuesser();
+        u.collectNumFromPlayer();
+        u.displayScores();
+	}
+
+}
